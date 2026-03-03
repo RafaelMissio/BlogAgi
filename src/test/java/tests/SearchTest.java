@@ -2,6 +2,8 @@ package tests;
 
 
 import base.BaseTest;
+import com.codeborne.selenide.Screenshots;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.Assertions;
@@ -9,6 +11,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.HomePage;
 import pages.SearchResultsPage;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class SearchTest extends BaseTest {
 
@@ -24,7 +30,8 @@ public class SearchTest extends BaseTest {
                 .clicarNaLupa()
                 .buscar(termoBusca);
 
-//       Assertions.assertTrue(driver.getCurrentUrl().contains("s=" + termoBusca));
+
+        captureScreenshot("resultado-busca-" + termoBusca);
         Assertions.assertEquals("Resultados encontrados para: " + termoBusca, results.getMensagemResultado());
         Assertions.assertTrue(results.temMaisDeUmArtigo());
     }
@@ -42,6 +49,7 @@ public class SearchTest extends BaseTest {
                 .buscar(termoBusca);
 
 
+        captureScreenshot("resultado-busca-" + termoBusca);
         Assertions.assertEquals("Resultados encontrados para: " + termoBusca, results.getMensagemResultado());
         Assertions.assertTrue(results.nenhumArtigoEncontrado());
         Assertions.assertEquals("Lamentamos, mas nada foi encontrado para sua pesquisa, tente novamente com outras palavras.",
@@ -61,6 +69,7 @@ public class SearchTest extends BaseTest {
                 .buscar(termoBusca);
 
 
+        captureScreenshot("resultado-busca-" + termoBusca);
         Assertions.assertEquals("Resultados encontrados para: " + termoBusca, results.getMensagemResultado());
         Assertions.assertTrue(results.nenhumArtigoEncontrado());
         Assertions.assertEquals("Lamentamos, mas nada foi encontrado para sua pesquisa, tente novamente com outras palavras.",
@@ -69,7 +78,7 @@ public class SearchTest extends BaseTest {
 
     @Test
     @Story("Busca com termo vazio")
-    @DisplayName("Deve retornar resultados ao buscar por termo existente")
+    @DisplayName("Deve retornar resultados ao buscar por termo vazio")
     @Description("Valida que a busca retorna artigos relacionados ao termo informado")
     public void testBuscaTermoVazio() {
         String termoBusca = "";
@@ -80,9 +89,12 @@ public class SearchTest extends BaseTest {
                 .buscar(termoBusca);
 
 
+        captureScreenshot("resultado-busca-" + termoBusca);
         Assertions.assertEquals("Resultados encontrados para:", results.getMensagemResultado());
         Assertions.assertTrue(results.temMaisDeUmArtigo());
     }
+
+
 
 }
 
